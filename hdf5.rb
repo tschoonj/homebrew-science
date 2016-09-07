@@ -1,9 +1,8 @@
 class Hdf5 < Formula
   desc "File format designed to store large amounts of data"
   homepage "http://www.hdfgroup.org/HDF5"
-  url "https://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.16/src/hdf5-1.8.16.tar.bz2"
-  sha256 "13aaae5ba10b70749ee1718816a4b4bfead897c2fcb72c24176e759aec4598c6"
-  revision 1
+  url "https://www.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.17/src/hdf5-1.8.17.tar.bz2"
+  sha256 "fc35dd8fd8d398de6b525b27cc111c21fc79795ad6db1b1f12cb15ed1ee8486a"
 
   bottle do
     sha256 "3ef70c3ba3d08e2e14f055d9fb3af6368a8cb3d9a825634fb30b83c66d648b1b" => :el_capitan
@@ -17,9 +16,10 @@ class Hdf5 < Formula
   deprecated_option "enable-parallel" => "with-mpi"
   deprecated_option "enable-fortran2003" => "with-fortran2003"
   deprecated_option "enable-cxx" => "with-cxx"
+  deprecated_option "with-check" => "with-test"
 
   option :universal
-  option "with-check", "Run build-time tests"
+  option "with-test", "Run build-time tests"
   option "with-threadsafe", "Trade performance for C API thread-safety"
   option "with-fortran2003", "Compile Fortran 2003 bindings (requires --with-fortran)"
   option "with-mpi", "Compile with parallel support (unsupported with thread-safety)"
