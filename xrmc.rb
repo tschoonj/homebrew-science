@@ -12,12 +12,21 @@ class Xrmc < Formula
     sha256 "cc9fd9634165a26fcadfc8a7ec9632fea2122c5458db368f6bc111fe4e6ccaea" => :mountain_lion
   end
 
-  option "with-test", "Run build-time tests (may take a long time)"
+  option "without-test", "Don't run build-time tests (may take a long time)"
 
-  depends_on "xraylib"
-  depends_on "pkg-config" => :build
   needs :openmp
+
+  depends_on "autoconf" => :build
+  depends_on "automake" => :build
+  depends_on "libtool" => :build
+  depends_on "pkg-config" => :build
   depends_on "xmi-msim" => :optional
+
+  if build.with? "xmi-msim"
+    depends_on "xraylib" => "with-fortran"
+  else
+    depends_on "xraylib"
+  end
 
   fails_with :llvm do
     cause <<-EOS.undent
@@ -27,23 +36,33 @@ class Xrmc < Formula
   end
 
   def install
+    inreplace Dir.glob("{examples,test}/*/Makefile.am"),
+      "$(datadir)/examples/xrmc/", "$(datadir)/examples/"
+
     args = %W[
       --disable-dependency-tracking
       --disable-silent-rules
       --prefix=#{prefix}
       --enable-openmp
+      --docdir=#{doc}
+      --datarootdir=#{pkgshare}
     ]
 
-    args << ((build.with? "xmi-msim") ? "--enable-xmi-msim" : "--disable-xmi-msim")
+    if build.with? "xmi-msim"
+      args << "--enable-xmi-msim"
+    else
+      args << "--disable-xmi-msim"
+    end
 
+    system "autoreconf", "-fiv"
     system "./configure", *args
     system "make"
-    system "make", "check" if build.with? "check"
+    system "make", "check" if build.with? "test"
     system "make", "install"
   end
 
   test do
-    cp Dir.glob("#{share}/examples/xrmc/cylind_cell/*"), "."
-    system "#{bin}/xrmc", "input.dat"
+    cp_r (pkgshare/"examples/cylind_cell").children, testpath
+    system bin/"xrmc", "input.dat"
   end
 end
