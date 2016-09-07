@@ -1,10 +1,10 @@
 class Xrmc < Formula
-  homepage "https://github.com/golosio/xrmc"
   desc "Monte Carlo simulation of X-ray imaging and spectroscopy experiments"
+  homepage "https://github.com/golosio/xrmc"
   url "http://lvserver.ugent.be/xrmc/files/xrmc-6.5.0.tar.gz"
   mirror "https://xrmc.s3.amazonaws.com/xrmc-6.5.0.tar.gz"
   sha256 "4995eaaf3b4583d443d0cf2003d73d1855b443938e431a4f758a607f540e026a"
-  revision 1
+  revision 2
 
   bottle do
     sha256 "c65c774606b4f4828b9ecaa9da78fb294c943ff95496288b9f75640cb2b10f53" => :yosemite
@@ -12,11 +12,12 @@ class Xrmc < Formula
     sha256 "cc9fd9634165a26fcadfc8a7ec9632fea2122c5458db368f6bc111fe4e6ccaea" => :mountain_lion
   end
 
+  option "with-test", "Run build-time tests (may take a long time)"
+
   depends_on "xraylib"
   depends_on "pkg-config" => :build
   needs :openmp
   depends_on "xmi-msim" => :optional
-  option "with-check", "Run build-time tests (may take a long time)"
 
   fails_with :llvm do
     cause <<-EOS.undent
