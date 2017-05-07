@@ -4,7 +4,7 @@ class XmiMsim < Formula
   url "https://xmi-msim.tomschoonjans.eu/xmimsim-6.0.tar.gz"
   sha256 "26520645d9e524436183090c2b8d3ea67cf1480e3b695b6feedf5790c436ac5c"
   revision 1
-  
+
   bottle do
     sha256 "de36351cb8eca8086c1d8a56ed2233260adc937eb0b2cf8297ede219685f7483" => :sierra
     sha256 "678abfd88503f0579d3932b5e6a3cfc5204e9de0c765d36b1d516e2b99455437" => :el_capitan
